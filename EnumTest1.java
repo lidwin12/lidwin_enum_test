@@ -1,70 +1,48 @@
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class EnumTest1 {
 
 
     public static void main(String args[]) {
+        RuleAlg alg = RuleAlg.ABC3;
+        System.out.println(alg.getRuleName());
+        Map countryMap = alg.getCountryAndTier();
 
-        RuleAlg alg = RuleAlg.ABC1;
-        System.out.println(alg.getRuleNameUS());
-        System.out.println(alg.getRuleIdUS());
-        System.out.println(alg.getRuleNameCA());
-        System.out.println(alg.getRuleIdCA());
-
-        RuleAlg alg2[] = RuleAlg.values();
-
-        System.out.println("Enum Values");
-
-        for(RuleAlg algTemp : alg2) {
-            System.out.println(algTemp.name());
-            System.out.println(algTemp.getRuleNameUS());
-            System.out.println(algTemp.getRuleIdUS());
-            System.out.println(algTemp.getRuleNameCA());
-            System.out.println(algTemp.getRuleIdCA());
-        }
+        String code = (String) countryMap.get("US");
+        System.out.println(code);
     }
 
 
     enum RuleAlg {
-        ABC1("US", 1, "CA", 11),
-        ABC2("US", 2, "CA", 22),
-        ABC3("US", 3, "CA", 33),
-        ABC4("US", 4),
-        ABC5("US", 5);
+        ABC1("ABC1","US:1,CA:2"),
+        ABC2("ABC2","US:4,CA:3"),
+        ABC3("ABC3","US:6");
 
-        String ruleNameUS;
-        int ruleIdUS;
+        String ruleName;
+        String countryAndTier;
 
-        String ruleNameCA;
-        int ruleIdCA;
-
-        RuleAlg(String ruleNameUS, int ruleIdUS, String ruleNameCA, int ruleIdCA){
-            this.ruleNameUS = ruleNameUS;
-            this.ruleIdUS = ruleIdUS;
-            this.ruleNameCA = ruleNameCA;
-            this.ruleIdCA = ruleIdCA;
+        RuleAlg(String ruleName, String countryAndTier) {
+            this.ruleName = ruleName;
+            this.countryAndTier = countryAndTier;
         }
 
-        RuleAlg(String ruleNameUS, int ruleIdUS){
-            this.ruleNameUS = ruleNameUS;
-            this.ruleIdUS = ruleIdUS;
+        public String getRuleName() {
+            return ruleName;
         }
 
-        public String getRuleNameUS(){
-            return ruleNameUS;
-        }
-        public int getRuleIdUS(){
-            return ruleIdUS;
-        }
+        public Map getCountryAndTier() {
+            Map<String, String> countryAndTierMap = new HashMap<>();
 
-        public String getRuleNameCA(){
-            return ruleNameCA;
-        }
-        public int getRuleIdCA(){
-            return ruleIdCA;
+            String[] countryAndTierStr = countryAndTier.split(",");
+            for(int i  = 0; i < countryAndTierStr.length; i++ ) {
+                String countryAndTierStr1 = countryAndTierStr[i];
+                String[] countryAndTierStr2 = countryAndTierStr1.split(":");
+                countryAndTierMap.put(countryAndTierStr2[0], countryAndTierStr2[1]);
+            }
+            return countryAndTierMap;
         }
     }
+
 }
 
